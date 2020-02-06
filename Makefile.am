@@ -594,7 +594,11 @@ libs/libvpx/libvpx.a: libs/libvpx/Makefile libs/libvpx/.update
 	@cd libs/libvpx && $(MAKE)
 
 libs/sofia-sip/Makefile:
+if NO_ASSERT
+	cd libs/sofia-sip && sh ./configure.gnu $(MY_DEFAULT_ARGS) --enable-ndebug
+else
 	cd libs/sofia-sip && sh ./configure.gnu $(MY_DEFAULT_ARGS)
+endif
 
 libs/sofia-sip/libsofia-sip-ua/sdp/.libs/libsdp.a libs/sofia-sip/libsofia-sip-ua/su/.libs/libsu.a: libs/sofia-sip/.update libs/sofia-sip/Makefile
 	@cd libs/sofia-sip && $(MAKE) noop
@@ -799,7 +803,11 @@ spandsp-reconf:
 sofia-reconf:
 	cd libs/sofia-sip && sh ./autogen.sh
 	cd libs/sofia-sip && $(MAKE) clean
+if NO_ASSERT
+	cd libs/sofia-sip && ./configure $(MY_DEFAULT_ARGS) --with-pic --with-glib=no --disable-shared --enable-ndebug
+else
 	cd libs/sofia-sip && ./configure $(MY_DEFAULT_ARGS) --with-pic --with-glib=no --disable-shared
+endif
 
 cluecon:
 	@clear
